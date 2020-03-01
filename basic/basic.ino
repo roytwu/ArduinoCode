@@ -1,5 +1,7 @@
+//* ------------------------------------
 //* Demonstrating Modulo Arithmetic 
 //* with Arduino UNO basic data types 
+//* ------------------------------------
 
 //#define BYTE
 //
