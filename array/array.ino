@@ -1,8 +1,7 @@
-//* ------------------------------------
+//* ------------------------------
 //* Basic operations about integer arrays
-//* ------------------------------------
+//* ------------------------------
 int arr[10];
-
 
 void setup() 
 {
@@ -12,7 +11,7 @@ void setup()
 
 void loop() 
 {
-  int len = sizeof(arr)/sizeof(arr[0]);
+  int len = sizeof(arr)/sizeof(arr[0]); //*length of array
   Serial.print("\nlegnth of Array is...") ;
   Serial.print(len) ;  
   for (int i=0; i<len; i++ )

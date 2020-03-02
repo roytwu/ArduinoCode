@@ -1,10 +1,10 @@
-//* -------------------------
+//* ------------------------------
 //* Ultrasonic Distance Sensor (HC-SR04)
-//* -------------------------
-#include <SR04.h>
+//* ------------------------------
+#include <SR04.h>    //* 3rd party library
 
-#define TRIG_PIN 12 //* P12: MISO
-#define ECHO_PIN 11 //* P11: MOSI
+#define TRIG_PIN 12  //* UNO output
+#define ECHO_PIN 11  //* UNO input
 SR04 oUS = SR04(ECHO_PIN, TRIG_PIN);
 long dis;
 long avgDis;
