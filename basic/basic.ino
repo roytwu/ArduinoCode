@@ -1,7 +1,8 @@
-//* ------------------------------------
-//* Demonstrating Modulo Arithmetic 
-//* with Arduino UNO basic data types 
-//* ------------------------------------
+//* ****************************************
+//* Author:      Roy Wu
+//* Description: Demonstrating Modulo Arithmetic 
+//*              with Arduino UNO basic data types 
+//* ****************************************
 
 //#define BYTE
 //
