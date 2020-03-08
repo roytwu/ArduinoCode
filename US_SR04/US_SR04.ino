@@ -10,12 +10,16 @@ SR04 oUS = SR04(ECHO_PIN, TRIG_PIN);
 long dis;
 long avgDis;
 
+//* ------------------------------
 void setup() 
 {
    Serial.begin(9600);
    delay(1000);
 }
+//* ------------------------------
 
+
+//* ------------------------------
 void loop() 
 {
    dis = oUS.Distance();
@@ -30,3 +34,4 @@ void loop()
    //Serial.println("\n\n\n\n");
    //delay(1000);
 }
+//* ------------------------------
