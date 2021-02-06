@@ -28,7 +28,7 @@ void loop()
   //* adjusting volume with analogWrite
   //* only every digital pins can do this
   //* ----- ----- ----- -----
-//  analogWrite(buzzPin, 30); //* 0 - 255
+//  analogWrite(buzzPin, 150); //* 0 - 255
 //  delay(0.5*1000);
 //  analogWrite(buzzPin, 10); //* 0 - 255
 //  delay(0.5*1000);
@@ -39,7 +39,7 @@ void loop()
   //* you can ban all the digital pins
   //* Approximately dc/10% duty cycle @ 1KHz
   //* ----- ----- ----- -----  
-  int dc=800; //* duty cycle
+  int dc=100; //* duty cycle
   digitalWrite(buzzPin, HIGH);
   delayMicroseconds(dc);     
   digitalWrite(buzzPin, LOW);

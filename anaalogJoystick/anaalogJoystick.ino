@@ -26,12 +26,12 @@ void loop()
   int switchV = digitalRead(switchPin);//* high & low
   
   //* print switch value
-  //Serial.println(switchV);
-  //Serial.print("\n");
+//  Serial.println(switchV);
+//  Serial.print("\n");
 
   //* print X&Y separately
-  //Serial.println(xValue);
-  //Serial.print("\n\n");
+//  Serial.println(xValue);
+//  Serial.print("\n\n");
 
   //* ploting x and Y pin together
   Serial.print(xValue);
@@ -39,6 +39,6 @@ void loop()
   Serial.println(yValue);
 
   int sec = 1.0;
-  delay(sec*100);
+//  delay(sec*100);
 }
 //* ---------------------------------------
