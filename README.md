@@ -4,24 +4,35 @@ Simple sketches to demostrate basic fundamental operations of Arduino UNO.
 💾 Sketches
 ------------
 
-## basic 
+- **basic** - 
 Demo of using C++ pre-processor in Arduino sketch
 
-## math
+- **math** - 
 Demo of built-in serial plotter
 
-## array
+- **array** - 
 Demo of integer array
 
-## forLoop
+- **forLoop** - 
 Lighting up multiple LEDs via for loop
 
-## US_SR04
+- **US_SR04** -
 Ultrasonice distance sensor HC-SR04. A 3rd party library is used.
 
-## analogJoystick
+- **analogJoystick** -
 Simple program to use 2D (x, y) analog joystick
 
-## bitBanging
- 1. use `analogWrite()` on PWM supported digital pins
- 2. Banging digital pin to create PWM functionality
+- **bitBanging** - 
+  1. use `analogWrite()` on PWM supported digital pins
+  2. Banging digital pin to create PWM functionality
+ 
+ 
+💾 Nano 33 BLE Sense
+------------
+- **33BLE_serial** - serical communcation example
+
+
+📚 Reference
+------------
+- https://store.arduino.cc/usa/nano-33-ble-sense
+---------------
