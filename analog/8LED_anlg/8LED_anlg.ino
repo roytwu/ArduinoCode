@@ -2,6 +2,7 @@
 //* Author:      Roy Wu
 //* Description: randomly light up the LEDs
 //* History:     01/22/2021 initial version
+//* Tinkercad:   https://www.tinkercad.com/things/5O9RS3cB9r8
 //* ----- ----- ----- ----- -----
 
 //* Define Pins & variables
