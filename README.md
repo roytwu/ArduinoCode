@@ -16,8 +16,6 @@ Demo of integer array
 - **forLoop** - 
 Lighting up multiple LEDs via for loop
 
-- **US_SR04** -
-Ultrasonice distance sensor HC-SR04. A 3rd party library is used.
 
 - **analogJoystick** -
 Simple program to use 2D (x, y) analog joystick
@@ -25,7 +23,14 @@ Simple program to use 2D (x, y) analog joystick
 - **bitBanging** - 
   1. use `analogWrite()` on PWM supported digital pins
   2. Banging digital pin to create PWM functionality
- 
+
+💾 hc_sr04
+------------ 
+Ultrasonice distance sensor HC-SR04
+- **ultrasonicLib**: measuring distance with the ultrasonic library
+- **sonarAndLCD**: output measurement to a LCD display
+- **tof_basic** : testing a 3rd party libraty 
+
  
 💾 Nano 33 BLE Sense
 ------------
