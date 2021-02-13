@@ -6,8 +6,8 @@
 //* ===== ===== ===== ===== =====
 #include <SR04.h>    //* 3rd party library
 
-#define TRIG_PIN 7  //* UNO output
-#define ECHO_PIN 6  //* UNO input
+#define TRIG_PIN 2  //* UNO output
+#define ECHO_PIN 3  //* UNO input
 
 SR04 oUS = SR04(ECHO_PIN, TRIG_PIN);
 long dis;
