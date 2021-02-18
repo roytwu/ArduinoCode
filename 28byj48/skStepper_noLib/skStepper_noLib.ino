@@ -4,10 +4,10 @@
 //* History:     02/18/2021 initial version
 //* ===== ===== ===== ===== =====
 
-
 void stepMotor(int pin1, int pin2, int pin3, int pin4, int thisStep)
 {
-   switch (thisStep) {
+   switch (thisStep) 
+   {
       case 0:  //* 1010
         digitalWrite(pin1, HIGH);
         digitalWrite(pin2, LOW);
@@ -34,43 +34,54 @@ void stepMotor(int pin1, int pin2, int pin3, int pin4, int thisStep)
       break;
     }
 }
+
+
 //* Define Pins & variables
-int IN1 = 4; //* driver board
+int IN1 = 4; //* driver board to arduino digital pin
 int IN2 = 5; 
 int IN3 = 6;
 int IN4 = 7;
-int last_step_time  = 0; 
-int step_delay      = 100; //*micro-sec
-int steps_left      = 41960;
-int number_of_steps = 41960;
-int step_number     = 0;
+int last_step_time = 0; 
+int step_delay     = 100; //*micro-sec
+int steps_left     = 0;
+int stepPerRev     = 4096;  //* from data sheet
+int step_number    = 0;
 
+double dly_btw_step  = 3;  //* milli-sec
+double rev = 0.5;        //* revolution
+
+//* ---------- ---------- ----------
+//*     standard Arduino setup
+//* ---------- ---------- ----------   
 void setup() 
 {
-    Serial.begin(9600);                //* initialize the serial port:  
+    Serial.begin(9600); 
     pinMode(IN1, OUTPUT);
     pinMode(IN2, OUTPUT);
     pinMode(IN3, OUTPUT);
     pinMode(IN4, OUTPUT);
 }
 
+
+//* ---------- ---------- ----------
+//*     standard Arduino loop
+//* ---------- ---------- ----------   
 void loop() 
 {
   Serial.print("\nProgram starts...") ;
   //Serial.print(interval) ; 
   
-  for (int i = 0; i <= 2048; i++) 
+  for (int i=0; i<=(rev*stepPerRev*0.5); i++) 
   {
+    //* be careful to the pin sequence
     stepMotor(IN1, IN3, IN2, IN4, i%4);
-    delayMicroseconds(300*1000);
+    //delayMicroseconds(dly_btw_step*1000);
+    delay(dly_btw_step);
 
     //Serial.print(i) ;
-    if (i==4196)
-    {
-      break;  
-    }
+    //if ( i==(stepPerRev/2) ){break;}
   }
-  delay(5000);
+  delay(1000);
 
 //  while (steps_left > 0)
 //  {
