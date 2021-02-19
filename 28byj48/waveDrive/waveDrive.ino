@@ -2,7 +2,7 @@
 //* Author:      Roy Wu
 //* Description: testing stepper motor (28BYJ-48) without built-in library
 //* History:     02/18/2021 initial version, modified from "skStepper_noLib"
-//*              02/18/2021 full step mode 
+//*              02/18/2021 wave drive mode 
 //* ===== ===== ===== ===== =====
 
 //* Define Pins & variables
