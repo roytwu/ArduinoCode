@@ -4,6 +4,20 @@
 //* History:     02/18/2021 initial version
 //* ===== ===== ===== ===== =====
 
+//* Define Pins & variables
+int IN1 = 4; //* driver board to arduino digital pin
+int IN2 = 5; 
+int IN3 = 6;
+int IN4 = 7;
+int last_step_time = 0; 
+int step_delay     = 100; //*micro-sec
+int steps_left     = 0;
+int stepPerRev     = 4096*0.5;  //* from data sheet
+int step_number    = 0;
+
+/*
+stepper motor driving function
+*/
 void stepMotor(int pin1, int pin2, int pin3, int pin4, int thisStep)
 {
    switch (thisStep) 
@@ -36,19 +50,43 @@ void stepMotor(int pin1, int pin2, int pin3, int pin4, int thisStep)
 }
 
 
-//* Define Pins & variables
-int IN1 = 4; //* driver board to arduino digital pin
-int IN2 = 5; 
-int IN3 = 6;
-int IN4 = 7;
-int last_step_time = 0; 
-int step_delay     = 100; //*micro-sec
-int steps_left     = 0;
-int stepPerRev     = 4096;  //* from data sheet
-int step_number    = 0;
+/*
+rotate the stepper motor clockwise
+    - rev: number of shaft revolution
+    - dly: delay between steps
+*/
+void clockwise (double rev, int dly)
+{
+  for (int i=0; i<=(rev*stepPerRev); i++) 
+  {
+    //* be careful to the pin sequence
+    stepMotor(IN1, IN3, IN2, IN4, i%4);
+    //delayMicroseconds(dly*1000);
+    delay(dly);
 
-double dly_btw_step  = 3;  //* milli-sec
-double rev = 0.5;        //* revolution
+    //Serial.print(i) ;
+    //if ( i==(stepPerRev/2) ){break;}
+  }
+}
+
+/*
+rotate the stepper motor counter-clockwise
+    - rev: number of shaft revolution
+    - dly: delay between steps
+*/
+void ccw (double rev, int dly)
+{
+  for (int i=rev*stepPerRev; i>=0; i--) 
+  {
+    stepMotor(IN1, IN3, IN2, IN4, i%4);
+    //delayMicroseconds(dly*1000);
+    delay(dly);
+
+    //Serial.print(i) ;
+    //if ( i==(stepPerRev/2) ){break;}
+  }  
+}
+
 
 //* ---------- ---------- ----------
 //*     standard Arduino setup
@@ -63,25 +101,21 @@ void setup()
 }
 
 
+double dly_btw_step  = 3;  //* milli-sec
+double rev = 1;         //* revolution
 //* ---------- ---------- ----------
 //*     standard Arduino loop
 //* ---------- ---------- ----------   
 void loop() 
 {
   Serial.print("\nProgram starts...") ;
-  //Serial.print(interval) ; 
   
-  for (int i=0; i<=(rev*stepPerRev*0.5); i++) 
-  {
-    //* be careful to the pin sequence
-    stepMotor(IN1, IN3, IN2, IN4, i%4);
-    //delayMicroseconds(dly_btw_step*1000);
-    delay(dly_btw_step);
-
-    //Serial.print(i) ;
-    //if ( i==(stepPerRev/2) ){break;}
-  }
+  clockwise(rev, dly_btw_step);
   delay(1000);
+
+  ccw(rev, dly_btw_step);  
+  delay(1000);
+
 
 //  while (steps_left > 0)
 //  {
