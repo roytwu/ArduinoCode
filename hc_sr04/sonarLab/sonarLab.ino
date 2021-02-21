@@ -1,8 +1,8 @@
 //* ===== ===== ===== ===== =====
 //* Author:      Roy Wu
-//* Description: Output HC-SR04 measurement to a LCD display
-//* History:     -01/22/2021 initial version, modified from a script wrriten by Tom Igoe
-//*              -02/13/2021 fixing the overwritten isses with data display   
+//* Description: Compare raw measurement and built-in libraries
+//* History:     -02/20/2021 initial version, modified from "sonarAndLCD"
+//*               
 //* ===== ===== ===== ===== =====
 /*
  Demonstrates the use a 16x2 LCD display.  
@@ -31,9 +31,30 @@
 #define pulseTimeout  100000  //* 100 milli-sec
 Ultrasonic    o_US(TRIG_PIN, ECHO_PIN);
 LiquidCrystal lcd(8, 9, 10, 11, 12, 13); //* initialize the LCD library
-long dis;
 long duration;
-long dist_cm;
+long distLib;  //* distance from library output
+long distTOF;  //* distance from usMeasure()
+
+long usMeasure()
+{
+  //* create a trigger pulse
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+
+  //* ----- -----
+  //*   sensor exposure: 
+  //*   starts timing when echoPin go from LOW to HIGH, 
+  //*   and then stop timing when echPin go back to LOW
+  //* ----- -----
+  duration = pulseIn(ECHO_PIN, HIGH, pulseTimeout);
+
+  //* time of flight: micro-sec to centimeter
+  long dist_cm = 0.5*(duration*343*100)/1000000;
+  return dist_cm;
+}
 
 
 void setup() 
@@ -41,36 +62,48 @@ void setup()
   Serial.begin(9600);
  
   lcd.begin(16, 2);    //* set up the LCD's number of columns and rows
+  lcd.setCursor(0, 0); 
+  lcd.print("raw:"); 
+  
+  lcd.setCursor(10, 0); 
   lcd.print("Roy Wu"); //* Print a message
+  
+  lcd.setCursor(0, 1); 
+  lcd.print("lib:"); 
 }
 
 void loop() 
 {
-  dis = o_US.read();          //* distance measurement
+  distLib = o_US.read();          //* distance measurement
+  distTOF = usMeasure();
 
   //* -----
   //* preparation
   //* -----
-  lcd.setCursor(0, 1);        //* set the cursor to column 0, line 1(2nd row)
+  lcd.setCursor(10, 1);        //* set the cursor to column 0, line 1(2nd row)
   lcd.print(millis() / 1000); //* print number of seconds since reset
-  lcd.setCursor(5, 1); 
-  lcd.print("Dis:"); 
 
 
   //* -----
   //* print out measurement and refresh the display
   //* -----
-  lcd.setCursor(9, 1); 
-  lcd.print(dis); 
+  lcd.setCursor(4, 0); 
+  lcd.print(distTOF); 
+   lcd.setCursor(4, 1); 
+  lcd.print(distLib); 
   delay(500);
-  lcd.setCursor(9, 1); 
-  lcd.print("       "); 
+  lcd.setCursor(4, 0); 
+  lcd.print("     "); 
+  lcd.setCursor(4, 1); 
+  lcd.print("     "); 
+
+
 
 
   //* -----
   //* output data to serial monitor
   //* -----
   Serial.print("Distance measurement...");
-  Serial.print(dis);
+  Serial.print(distLib);
   Serial.println("cm");
 }
