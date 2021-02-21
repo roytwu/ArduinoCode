@@ -10,11 +10,13 @@ int IN1 = 4; //* driver board to arduino digital pin
 int IN2 = 5; 
 int IN3 = 6;
 int IN4 = 7;
-int last_step_time = 0; 
-int step_delay     = 100; //*micro-sec
-int steps_left     = 0;
 int stepPerRev     = 4096*0.5;  //* from data sheet
-int step_number    = 0;
+//int last_step_time = 0; 
+//int step_delay     = 100; //*micro-sec
+//int steps_left     = 0;
+//int step_number    = 0;
+
+
 
 /*
 stepper motor driving function
