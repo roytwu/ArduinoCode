@@ -6,6 +6,7 @@
 //* ===== ===== ===== ===== =====
 #define trigPin 2      //* UNO output
 #define echoPin 3      //* UNO input
+#define pulseTimeout  100000  //* 100 milli-sec
 
 double duration;
 long dist_cm;  //* distance in centimeter
@@ -25,24 +26,28 @@ void setup()
 //*     standard Arduino loop
 //* ---------- ---------- ----------   
 void loop() 
-{
-  Serial.println("program starts...");
-  
-  //* create a trigger pulse
+{ 
+  //* ----- -----
+  //*   create a trigger pulse
+  //* ----- -----
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
 
-  //* starts timing when echoPin go from LOW to HIGH
-  //* stop timing when echPin go from HIH back to LOW
-  duration = pulseIn(echoPin, HIGH);
+  //* ----- -----
+  //*   sensor exposure: 
+  //*   starts timing when echoPin go from LOW to HIGH, 
+  //*   and then stop timing when echPin go back to LOW
+  //* ----- -----
+  duration = pulseIn(echoPin, HIGH, pulseTimeout);
 
-  //* micro-sec to centimeter
-  dist_cm = (duration* 100)/5882;
+  //* ----- -----
+  //*   time of flight: micro-sec to centimeter
+  //* ----- -----
+  dist_cm = 0.5*(duration*343*100)/1000000;
   
   Serial.print("distance is... ");
-  Serial.print(duration);
-  //Serial.println(dist_cm);
+  Serial.println(dist_cm);
 }
