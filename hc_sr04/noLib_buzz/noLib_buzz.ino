@@ -2,7 +2,7 @@
 //* Author:      Roy Wu
 //* Description: Compare raw measurement and built-in libraries
 //* History:     -02/20/2021 initial version, modified from "sonarAndLCD"
-//*               
+//*              -03/05/2021 add buzzer
 //* ===== ===== ===== ===== =====
 /*
  Demonstrates the use a 16x2 LCD display.  
@@ -24,79 +24,118 @@
 */
 
 #include <LiquidCrystal.h> //* use library manager
-#include <Ultrasonic.h>    //* use library manager
+#include <Ultrasonic.h>    //* primitive library for HC-SR04
+#include <NewPing.h>       //* a much better library for HC-SR04
 
-#define TRIG_PIN 2      //* UNO output
-#define ECHO_PIN 3      //* UNO input
+#define trigPin 2      //* UNO output
+#define echoPin 3      //* UNO input
+#define buzzPin 6     //* active buzzer pin
 #define pulseTimeout  100000  //* 100 milli-sec
-Ultrasonic    o_US(TRIG_PIN, ECHO_PIN);
+
 LiquidCrystal lcd(8, 9, 10, 11, 12, 13); //* initialize the LCD library
 long duration;
-long distLib;  //* distance from library output
-long distTOF;  //* distance from usMeasure()
+long dist;  
 
 long usMeasure()
 {
   //* create a trigger pulse
-  digitalWrite(TRIG_PIN, LOW);
+  digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
-  digitalWrite(TRIG_PIN, HIGH);
+  digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
-  digitalWrite(TRIG_PIN, LOW);
+  digitalWrite(trigPin, LOW);
 
   //* ----- -----
   //*   sensor exposure: 
   //*   starts timing when echoPin go from LOW to HIGH, 
   //*   and then stop timing when echPin go back to LOW
   //* ----- -----
-  duration = pulseIn(ECHO_PIN, HIGH, pulseTimeout);
+  duration = pulseIn(echoPin, HIGH, pulseTimeout);
 
   //* time of flight: micro-sec to centimeter
   long dist_cm = 0.5*(duration*343*100)/1000000;
   return dist_cm;
 }
 
+void makingNoise(int dly_micro)
+{
+  int count=0;
+  while(count<5)
+  {
+    for(int i=0; i<60; i++)
+    {
+      digitalWrite(buzzPin, HIGH);
+      delayMicroseconds(dly_micro);
+      digitalWrite(buzzPin, LOW);
+      delayMicroseconds(dly_micro);
+    }
+    count++;
+  }
+}  
 
+
+//* ---------- ---------- ----------
+//*     standard Arduino setup
+//* ---------- ---------- ----------   
 void setup() 
 {
   Serial.begin(9600);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(buzzPin,  OUTPUT);
  
   lcd.begin(16, 2);    //* set up the LCD's number of columns and rows
-  lcd.setCursor(0, 0); 
-  lcd.print("raw:"); 
-  
   lcd.setCursor(10, 0); 
   lcd.print("Roy Wu"); //* Print a message
   
   lcd.setCursor(0, 1); 
-  lcd.print("lib:"); 
+  lcd.print("dist:"); 
 }
 
+//* ---------- ---------- ----------
+//*     standard Arduino loop
+//* ---------- ---------- ----------   
 void loop() 
 {
-  distLib = o_US.read();          //* distance measurement
-  distTOF = usMeasure();
+  //* distance measurement
+  dist = usMeasure();
+  
+  //* -----
+  //* different buzzing tone
+  //* -----
+  if (dist >=60)
+  {
+    makingNoise(3000);
+  }
+  else if (dist>=40 && dist<60)
+  {
+    makingNoise(2000);
+  }
+  else if(dist>=20 && dist <40)
+  {
+    makingNoise(1000);
+  } 
+  else if(dist<20)
+  {
+    makingNoise(500);
+  }
+  
 
   //* -----
-  //* preparation
+  //* LCD preparation
   //* -----
-  lcd.setCursor(10, 1);        //* set the cursor to column 0, line 1(2nd row)
+  lcd.setCursor(10, 1);       //* set the cursor to column 0, line 1(2nd row)
   lcd.print(millis() / 1000); //* print number of seconds since reset
 
 
   //* -----
   //* print out measurement and refresh the display
   //* -----
-  lcd.setCursor(4, 0); 
-  lcd.print(distTOF); 
-   lcd.setCursor(4, 1); 
-  lcd.print(distLib); 
+  lcd.setCursor(5, 1); 
+  lcd.print(dist); 
   delay(500);
-  lcd.setCursor(4, 0); 
+  lcd.setCursor(5, 1); 
   lcd.print("     "); 
-  lcd.setCursor(4, 1); 
-  lcd.print("     "); 
-
 
 
 
@@ -104,6 +143,6 @@ void loop()
   //* output data to serial monitor
   //* -----
   Serial.print("Distance measurement...");
-  Serial.print(distLib);
+  Serial.print(dist);
   Serial.println("cm");
 }
