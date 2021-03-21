@@ -8,7 +8,7 @@
 #define echoPin 3      //* UNO input
 #define pulseTimeout  100000  //* 100 milli-sec
 
-double duration;
+long duration;
 long dist_cm;  //* distance in centimeter
 
 //* ---------- ---------- ----------
