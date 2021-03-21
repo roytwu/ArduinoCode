@@ -2,11 +2,17 @@
 //* Author:      Roy Wu
 //* Description: Test HC-SR04 without using a library
 //* History:     -02/20/2021 initial version
+//*              -03/09/2021 adding experimental offset
 //*               
 //* ===== ===== ===== ===== =====
 #define trigPin 2      //* UNO output
 #define echoPin 3      //* UNO input
-#define pulseTimeout  100000  //* 100 milli-sec
+
+//* timeout for the maximum measuring distance
+//* 700 is the offset obtained by the experiment
+int maxDis = 40;
+long pulseTimeout = 1000000*(maxDis*2)/34300+700;
+//#define pulseTimeout  100000  //* 100 milli-sec
 
 long duration;
 long dist_cm;  //* distance in centimeter
@@ -50,4 +56,5 @@ void loop()
   
   Serial.print("distance is... ");
   Serial.println(dist_cm);
+  delay(1000);
 }
