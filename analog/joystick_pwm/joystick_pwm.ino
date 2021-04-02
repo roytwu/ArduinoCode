@@ -5,6 +5,7 @@
 //*              Buzzer noise can be minimied by pressing the push button on the joystick
 //* History:     -05/xx/2020 initial version
 //*              -03/21/2021 adding buzzOnOff()
+//*              -04/02/2021 must use a PWM pin to run the code
 //* ===== ===== ===== ===== =====
 
 const int switchPin = 2; //* joystick  
@@ -19,7 +20,6 @@ int pinModeSW = 0;  //* 0: output, 1:input
 
 //* ---------- 
 //*     turn buzzer on/off by changing the pinMode
-//*     (not ideal, there must be other apprach)
 //* ---------- 
 void buzzOnOff()
 {
@@ -64,9 +64,8 @@ void setup()
 //* ---------- ---------- ----------  
 void loop() 
 {
-  //* analoagRed return between 0 to 1024
-  int xValue = analogRead(xPin)*5; 
-  int yValue = analogRead(yPin)*5;
+  int xValue = analogRead(xPin)*1024/256; //* 0 to 256
+  int yValue = analogRead(yPin);          //* 0 to 1024
   int switchV = digitalRead(switchPin); //* high or low
   
   //* print switch value
@@ -89,11 +88,11 @@ void loop()
   while(counter < 5)
   {
     //* buzzing in one frequency
-    for(i=0; i<50; i++)
+    for(i=0; i<100; i++)
     {
-      digitalWrite(buzzPin, HIGH);
-      delayMicroseconds(xValue);
-      digitalWrite(buzzPin, LOW);
+      analogWrite(buzzPin, xValue);
+      delayMicroseconds(yValue);
+      analogWrite(buzzPin, 0);
       delayMicroseconds(yValue);
     }
     counter++;   
