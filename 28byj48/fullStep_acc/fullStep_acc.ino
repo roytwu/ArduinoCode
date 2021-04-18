@@ -2,7 +2,7 @@
 //* Author:      Roy Wu
 //* Description: testing stepper motor (28BYJ-48) without built-in library
 //* History:     02/18/2021 initial version, modified from "skStepper_noLib"
-//*              02/18/2021 wave drive mode 
+//*              02/18/2021 full step mode 
 //* ===== ===== ===== ===== =====
 
 //* Define Pins & variables
@@ -10,12 +10,13 @@ int IN1 = 4; //* driver board to arduino digital pin
 int IN2 = 5; 
 int IN3 = 6;
 int IN4 = 7;
-int last_step_time = 0; 
-int step_delay     = 100; //*micro-sec
-int steps_left     = 0;
-//* (32*2)*64 =4096
 int stepPerRev     = 4096*0.5;  //* from data sheet
-int step_number    = 0;
+//int last_step_time = 0; 
+//int step_delay     = 100; //*micro-sec
+//int steps_left     = 0;
+//int step_number    = 0;
+
+
 
 /*
 stepper motor driving function
@@ -24,26 +25,26 @@ void stepMotor(int pin1, int pin2, int pin3, int pin4, int thisStep)
 {
    switch (thisStep) 
    {
-      case 0:  //* 1010
+      case 0:  
         digitalWrite(pin1, HIGH);
-        digitalWrite(pin2, LOW);
+        digitalWrite(pin2, HIGH);
         digitalWrite(pin3, LOW);
         digitalWrite(pin4, LOW);
       break;
       case 1:  
         digitalWrite(pin1, LOW);
         digitalWrite(pin2, HIGH);
-        digitalWrite(pin3, LOW);
+        digitalWrite(pin3, HIGH);
         digitalWrite(pin4, LOW);
       break;
       case 2:  
         digitalWrite(pin1, LOW);
         digitalWrite(pin2, LOW);
         digitalWrite(pin3, HIGH);
-        digitalWrite(pin4, LOW);
+        digitalWrite(pin4, HIGH);
       break;
       case 3:  
-        digitalWrite(pin1, LOW);
+        digitalWrite(pin1, HIGH);
         digitalWrite(pin2, LOW);
         digitalWrite(pin3, LOW);
         digitalWrite(pin4, HIGH);
@@ -103,9 +104,8 @@ void setup()
 }
 
 
-double dly_btw_stepA  = 2;  //* milli-sec
-double dly_btw_stepB  = 10;  //* milli-sec
-double rev = 0.3;         //* revolution
+int dly_btw_step = 100;  //* milli-sec
+double rev = 1;         //* revolution
 //* ---------- ---------- ----------
 //*     standard Arduino loop
 //* ---------- ---------- ----------   
@@ -113,10 +113,10 @@ void loop()
 {
   Serial.print("\nProgram starts...") ;
   
-  clockwise(rev, dly_btw_stepA);
+  clockwise(rev, dly_btw_step);
   delay(1000);
 
-  ccw(0.3, dly_btw_stepB);  
+  ccw(rev, dly_btw_step);  
   delay(1000);
 
 
