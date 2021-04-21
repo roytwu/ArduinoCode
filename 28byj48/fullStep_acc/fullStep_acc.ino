@@ -60,6 +60,8 @@ rotate the stepper motor clockwise
 */
 void clockwise (double rev, int dly)
 {
+  range = round(rev*stepPerRev);
+  
   for (int i=0; i<=(rev*stepPerRev); i++) 
   {
     //* be careful to the pin sequence
@@ -71,6 +73,18 @@ void clockwise (double rev, int dly)
     //if ( i==(stepPerRev/2) ){break;}
   }
 }
+
+
+void cwAcc (double rev, int dlyA, int dlyB)
+{
+  for (int i=0; i<=(rev*stepPerRev); i++) 
+  {
+    stepMotor(IN1, IN2, IN3, IN4, i%4);
+    //delayMicroseconds(dly*1000);
+    delay(dly);
+  }
+}
+
 
 /*
 rotate the stepper motor counter-clockwise
@@ -104,8 +118,8 @@ void setup()
 }
 
 
-int dly_btw_step = 100;  //* milli-sec
-double rev = 1;         //* revolution
+int dly_btw_step = 2.93;  //* milli-sec
+double rev = 5;         //* revolution
 //* ---------- ---------- ----------
 //*     standard Arduino loop
 //* ---------- ---------- ----------   

@@ -19,7 +19,7 @@ int stepPerRev     = 4096;  //* from data sheet
 /*
 stepper motor driving function
 */
-void stepMotor(int pin1, int pin2, int pin3, int pin4, int thisStep)
+void stepMotor(int pin1, int pin2, int pin3, int pin4, long thisStep)
 {
    switch (thisStep) 
    {
@@ -79,14 +79,14 @@ rotate the stepper motor clockwise
     - rev: number of shaft revolution
     - dly: delay between steps
 */
-void clockwise (double rev, int dly)
+void clockwise (double rev, double dly)
 {
   for (int i=0; i<=(rev*stepPerRev); i++) 
   {
     //* be careful to the pin sequence
     stepMotor(IN1, IN2, IN3, IN4, i%8);
-    //delayMicroseconds(dly*1000);
-    delay(dly);
+    delayMicroseconds(dly*1000);
+    //delay(dly);
 
     //Serial.print(i) ;
     //if ( i==(stepPerRev/2) ){break;}
@@ -98,13 +98,13 @@ rotate the stepper motor counter-clockwise
     - rev: number of shaft revolution
     - dly: delay between steps
 */
-void ccw (double rev, int dly)
+void ccw (double rev, double dly)
 {
   for (int i=rev*stepPerRev; i>=0; i--) 
   {
     stepMotor(IN1, IN2, IN3, IN4, i%8);
-    //delayMicroseconds(dly*1000);
-    delay(dly);
+    delayMicroseconds(dly*1000);
+    //delay(dly);
 
     //Serial.print(i) ;
     //if ( i==(stepPerRev/2) ){break;}
@@ -124,9 +124,9 @@ void setup()
     pinMode(IN4, OUTPUT);
 }
 
-
-double dly_btw_step  = 4;  //* milli-sec
-double rev = 0.5;         //* revolution
+//double dly_btw_step  = 2.93;  //* milli-sec up to 3 deical places, 5 rpm
+double dly_btw_step  = 0.977;  //* milli-sec, 15 rpm
+double rev = 1.0;         //* revolution
 //* ---------- ---------- ----------
 //*     standard Arduino loop
 //* ---------- ---------- ----------   
