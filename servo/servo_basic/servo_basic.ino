@@ -4,7 +4,9 @@
 //* History:     -04/21/2021 initial version
 //* ===== ===== ===== ===== =====
 
+#include <Servo.h> 
 int servoPin = 10;
+Servo Servo1; 
 
 //* ---------- ---------- ----------
 //*     standard Arduino setup
@@ -14,8 +16,7 @@ void setup()
   Serial.begin(9600);
   Serial.println("poor man's servo sweep");
   
-  pinMode(servoPin, OUTPUT);
-  digitalWrite(servoPin, LOW);
+  Servo1.attach(servoPin); 
 }
 
 
@@ -24,20 +25,15 @@ void setup()
 //* ---------- ---------- ----------  
 void loop()
 {
-  Serial.print("one side...");
-  
-  for(int i=0; i<100; i++)
-  {
-    digitalWrite(servoPin, HIGH);
-    delayMicroseconds(1900);    //position
-    digitalWrite(servoPin, LOW);
-    delayMicroseconds(18100);   //balance of 20000 cycle
-  }
-
-  delay(2000);
-  
-  digitalWrite(servoPin, HIGH);
-  delayMicroseconds(1100);    //position
-  digitalWrite(servoPin, LOW);
-  delayMicroseconds(18900);   //balance of 20000 cycle
+   // Make servo go to 0 degrees 
+   Servo1.write(0); 
+   delay(1000); 
+   
+   // Make servo go to 90 degrees 
+   Servo1.write(90); 
+   delay(1000); 
+   
+   // Make servo go to 180 degrees 
+   Servo1.write(180); 
+   delay(1000); 
 } 
