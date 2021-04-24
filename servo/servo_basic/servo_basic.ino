@@ -5,7 +5,7 @@
 //* ===== ===== ===== ===== =====
 
 #include <Servo.h> 
-int servoPin = 10;
+int servoPin = 8;
 Servo Servo1; 
 
 //* ---------- ---------- ----------
@@ -24,16 +24,37 @@ void setup()
 //*     standard Arduino loop
 //* ---------- ---------- ----------  
 void loop()
-{
-   // Make servo go to 0 degrees 
-   Servo1.write(0); 
-   delay(1000); 
+{   
+//   //* Make servo go to 90 degrees 
+//   Servo1.write(90); 
+//   delay(500); 
+//   
+//   //* Make servo go to 180 degrees 
+//   Servo1.write(180); 
+//   delay(500); 
+//
+//   //* Make servo go to 180 degrees 
+//   Servo1.write(90); 
+//   delay(500); 
+//
+//   //* Make servo go to 180 degrees 
+//   Servo1.write(0); 
+//   delay(2000); 
+
+
+  //* scan from 0 to 180 degrees
+  for(int angle = 10; angle < 180; angle++)  
+  {                                  
+    Servo1.write(angle);               
+    delay(15);                   
+  } 
+  delay(500); 
+  //* now scan back from 180 to 0 degrees
+  for(int angle = 180; angle > 10; angle--)    
+  {                                
+    Servo1.write(angle);           
+    delay(15);       
+  } 
+  delay(500); 
    
-   // Make servo go to 90 degrees 
-   Servo1.write(90); 
-   delay(1000); 
-   
-   // Make servo go to 180 degrees 
-   Servo1.write(180); 
-   delay(1000); 
 } 
