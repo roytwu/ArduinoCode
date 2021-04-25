@@ -17,8 +17,9 @@ Servo myServo;
 void setup()
 {
   Serial.begin(9600);
-  myServo.attach(servoPin); 
-
+  //myServo.attach(servoPin);
+  myServo.attach(servoPin, 1000, 2000);
+ 
   myServo.write(90); //* move to center (joystick neutral)
   offsetX = analogRead(joyPinX); //* initial joystick x-val
 //  offsetY = analogRead(joyPinY); //* initial joystick y-val
@@ -36,5 +37,5 @@ void loop()
   int deg = round(xVal*180/1023);
   myServo.write(deg);  //* move servo to joystick location
   delay(500);
-  Serial.println(deg); //* print out degree
+  Serial.println(joyPinX); //* print out degree
 } 

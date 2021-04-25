@@ -4,7 +4,7 @@
 //* History:     -04/21/2021 initial version
 //* ===== ===== ===== ===== =====
 
-int servoPin = 8;
+int servoPin = 10;
 
 //* ---------- ---------- ----------
 //*     standard Arduino setup
@@ -26,17 +26,18 @@ void loop()
 {
   Serial.print("one side...");
   
-
-  int timeHigh = 1500;
-  int timeLow  = 20000-timeHigh;
-  for (int i=0; i<50; i++)
+  for(int i=0; i<100; i++)
   {
     digitalWrite(servoPin, HIGH);
-    delayMicroseconds(timeHigh);       //90 degree
+    delayMicroseconds(1900);    //position
     digitalWrite(servoPin, LOW);
-    delayMicroseconds(timeLow); //balance of 20000 cycle
+    delayMicroseconds(18100);   //balance of 20000 cycle
   }
-  delay(1000);
+
+  delay(2000);
   
-  
+  digitalWrite(servoPin, HIGH);
+  delayMicroseconds(1100);    //position
+  digitalWrite(servoPin, LOW);
+  delayMicroseconds(18900);   //balance of 20000 cycle
 } 
