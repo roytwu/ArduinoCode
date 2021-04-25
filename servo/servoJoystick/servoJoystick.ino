@@ -1,13 +1,13 @@
 //* ===== ===== ===== ===== =====
 //* Author:      Roy Wu
-//* Description: basic program for servo motor
-//* History:     -04/21/2021 initial version
+//* Description: Use joystick y-axis to control a servo motor (SG-90)
+//* History:     -04/24/2021 initial version
 //* ===== ===== ===== ===== =====
 
 #include <Servo.h> 
 int servoPin = 8;
 int joyPinX = A0; //* pin for x-dir joystick
-int joyPiny = A1; //* pin for y-dir joystick
+int joyPinY = A1; //* pin for y-dir joystick
 int offsetX;
 Servo myServo; 
 
@@ -17,12 +17,10 @@ Servo myServo;
 void setup()
 {
   Serial.begin(9600);
-  //myServo.attach(servoPin);
-  myServo.attach(servoPin, 1000, 2000);
+  //myServo.attach(servoPin);          //*(544, 2400) by default
+  myServo.attach(servoPin, 520, 2600); //*trial and error
  
   myServo.write(90); //* move to center (joystick neutral)
-  offsetX = analogRead(joyPinX); //* initial joystick x-val
-//  offsetY = analogRead(joyPinY); //* initial joystick y-val
 }
 
 //* 0 - 1023
@@ -33,9 +31,10 @@ void setup()
 //* ---------- ---------- ----------  
 void loop()
 {   
-  int xVal = analogRead(joyPinX)-512; 
-  int deg = round(xVal*180/1023);
+  int val = analogRead(joyPinY); 
+  int deg = map(val, 0, 1023, 0, 180);
   myServo.write(deg);  //* move servo to joystick location
+  
   delay(500);
-  Serial.println(joyPinX); //* print out degree
+  Serial.println(deg); //* print out degree
 } 
