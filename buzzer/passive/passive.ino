@@ -1,9 +1,10 @@
 //* ===== ===== ===== ===== =====
 //* Author:      Roy Wu
-//* Description: basic program for active buzzer
+//* Description: basic program for passive buzzer
 //*              buzzer would humning in two different tone 3 times in one cycle
 //*              adjusting the delay time to tune the himming tone
 //* History:     -03/05/2021 initial version
+//*              -07/01/2021 code is for "passive" buzzers
 //* ===== ===== ===== ===== =====
 int buzzPin = 6;
 
